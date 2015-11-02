@@ -3,6 +3,7 @@
 #include <string.h>
 #include <stdlib.h>
 #include <time.h>
+#include <omp.h>
 #include "../kvec.h"
 
 typedef struct Line{
@@ -86,6 +87,7 @@ void Train(char* trainFileName, float* weights, int* numWeights, char* weightsFi
   while(load != EOF)
   {
     Line l;
+#pragma omp parallel for
     for(unsigned int i = 0; i < NUM_DATA; ++i)
     {
       load = fscanf(tFile, "%f", &l.x[i]);
@@ -115,7 +117,7 @@ void Train(char* trainFileName, float* weights, int* numWeights, char* weightsFi
   int counter = 0;
 
   time_t start, end;
-  start = clock();
+  start = clock(); 
 
   // Train
   do {
@@ -128,18 +130,18 @@ void Train(char* trainFileName, float* weights, int* numWeights, char* weightsFi
         ++error;
         if(out)
         {
-          weights[0] += gama;
-          for(unsigned int j = 1; j <= NUM_DATA; ++j)
+#pragma omp parallel for
+          for(unsigned int j = 0; j <= NUM_DATA; ++j)
           {
-            weights[j] -= gama * ls.a[i].x[j-1];
+            weights[j] -= (j == 0)?(-gama):(gama * ls.a[i].x[j-1]);
           }
         } 
         else 
         {
-          weights[0] -= gama;
+#pragma omp parallel for
           for(unsigned int j = 1; j <= NUM_DATA; ++j)
           {
-            weights[j] += gama * ls.a[i].x[j-1];
+            weights[j] += (j == 0)?(-gama):(gama * ls.a[i].x[j-1]);
           }
         }
       }
@@ -163,11 +165,12 @@ void Train(char* trainFileName, float* weights, int* numWeights, char* weightsFi
   end = clock();
 
   double t = (double)(end - start) / (double)CLOCKS_PER_SEC;
-  fprintf(stderr, "%f \n", t);
+  fprintf(stderr, "Time: %f \n", t);
 
   // export weights
   if(wFile)
   {
+#pragma omp parallel for
     for(unsigned int i = 0; i <= NUM_DATA; ++i)
     {
       fprintf(wFile, "%f ", weights[i]);
@@ -193,6 +196,8 @@ void Compute(char* dataFile, float* weights, int numWeights)
 int Neuron(const float* data, const float* weights, const int numData)
 {
   float sum = -weights[0];
+
+#pragma omp parallel for
   for(unsigned int i = 1; i <= numData; ++i)
   {
     sum += data[i - 1] * weights[i];

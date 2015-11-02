@@ -5,6 +5,7 @@
 #include <string.h>
 #include <time.h>
 #include <math.h>
+#include <omp.h>
 #include "gen2d.h" 
 
 int readFile(char* filename, int flag)
@@ -57,6 +58,7 @@ int readFile(char* filename, int flag)
 
 int readFileSquare(FileLine *lines, int numLines)
 {
+#pragma omp parallel for
 	for(unsigned int i = 0; i < numLines; ++i)
 	{
 		for(unsigned int j = 0; j < lines[i].count; ++j)
@@ -91,6 +93,7 @@ int readFileSquare(FileLine *lines, int numLines)
 
 int readFileCircle(FileLine *lines, int numLines)
 {
+#pragma omp parallel for
 	for(unsigned int i = 0; i < numLines; ++i)
 	{
 		unsigned int j = 0;
@@ -130,6 +133,7 @@ int readFileCircle(FileLine *lines, int numLines)
 
 int readFileGauss(FileLine *lines, int numLines)
 {
+#pragma omp parallel for
 	for(unsigned int i = 0; i < numLines; ++i)
 	{
 		unsigned int j = 0;

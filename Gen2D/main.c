@@ -58,9 +58,13 @@ int main(int argc, char *argv[])
       }
   
   srand(time(0));
-  float t = time(0);
+  time_t start, end;
+  start = clock();
   readFile(fileName, flag);
-  fprintf(stderr, "time: %.6f\n", time(0) - t);
+  end = clock();
+
+  double t = (double)(end - start) / (double)CLOCKS_PER_SEC;
+  fprintf(stderr, "time: %.6f\n", t);
 
   return 0;
 }
