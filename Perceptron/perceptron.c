@@ -102,10 +102,10 @@ void Train(char* trainFileName, float* weights, int* numWeights, char* weightsFi
   if((flags & PRC_GEN_IW) || (weights == NULL))
   {
     weights = malloc((NUM_DATA + 1) * sizeof(float));
-    weights[0] = 3000 + rand() % 2000;
-    for(unsigned int i = 1; i <= NUM_DATA; ++i)
+    //weights[0] = 3000 + rand() % 2000;
+    for(unsigned int i = 0; i <= NUM_DATA; ++i)
     {
-      weights[i] = rand() % 2000;
+      weights[i] = rand() % 10000;
     }
 
     *numWeights = NUM_DATA + 1; // w[0] -> bias

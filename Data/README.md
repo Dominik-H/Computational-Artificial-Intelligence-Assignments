@@ -8,3 +8,5 @@
 * error.dat - error Data exported from Perceptron training using inG.dat as training set.
 * progressG.dat - Data containing points that forms lines for ploting progress using gnuplot. Video is on my Portfolio page.
 * weightsG.dat - Exported final weights from Perceptron using inG.dat as training set.
+
+* xxx2.dat - second version as above after small update in the program
