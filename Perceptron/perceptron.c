@@ -11,6 +11,16 @@ typedef struct Line{
   int c; // class
 } Line;
 
+// *Training Function.*
+//
+// [in] trainFileName - 2D vector of training data with classification
+// [out] weights - place to save weights
+// [out] numWeights - size of weights array
+// [in] weightsFile - file where to export weights
+// [in] progressFile - file where to export progress
+// [in] errorFile - file where to export error data
+// [in] flags - flags containing options
+// [in] gama - learning rate
 void Train(char* trainFileName, float* weights, int* numWeights, char* weightsFile, char* progressFile, char* errFile, int flags, const float gama)
 {
   FILE *tFile = NULL;
@@ -188,11 +198,19 @@ void Train(char* trainFileName, float* weights, int* numWeights, char* weightsFi
     fclose(pFile);
 }
 
+// Function that computes output using pre-computed weights
 void Compute(char* dataFile, float* weights, int numWeights)
 {
 
 }
 
+// *Function that runs inside the neuron.*
+// **MAYBE I'LL CHANGE NAME LATER**
+//
+// [in] data - vector of input data (X-es)
+// [in] weights - vector of input weights -> size is size of data vector + 1 (bias)
+// [in] numData - size of data vector
+// *return -> neuron output (1 or 0)
 int Neuron(const float* data, const float* weights, const int numData)
 {
   float sum = -weights[0];

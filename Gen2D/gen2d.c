@@ -8,6 +8,7 @@
 #include <omp.h>
 #include "gen2d.h" 
 
+// reads file
 int readFile(char* filename, int flag)
 {
 	if(filename == NULL)
@@ -56,6 +57,7 @@ int readFile(char* filename, int flag)
 	return numL;
 }
 
+// generates data using Square option
 int readFileSquare(FileLine *lines, int numLines)
 {
 #pragma omp parallel for
@@ -91,6 +93,7 @@ int readFileSquare(FileLine *lines, int numLines)
 	return numLines;
 }
 
+// generates data using circle option
 int readFileCircle(FileLine *lines, int numLines)
 {
 #pragma omp parallel for
@@ -131,6 +134,7 @@ int readFileCircle(FileLine *lines, int numLines)
 	return numLines;
 }
 
+// generates data using gauss option
 int readFileGauss(FileLine *lines, int numLines)
 {
 #pragma omp parallel for
@@ -150,10 +154,6 @@ int readFileGauss(FileLine *lines, int numLines)
 				printf("%.4f %.4f %d\n", x, y, lines[i].class);
 				++j;
 			}
-			else
-			{
-				//fprintf(stderr, "a\n");
-			}
 		}			
 	}
  
@@ -161,7 +161,10 @@ int readFileGauss(FileLine *lines, int numLines)
 }
 
 double rand_normal(double mean, double stddev)
-{//Box muller method
+{
+
+//Box muller method
+
 	/*// This Algorithm is from:
 	// http://en.literateprograms.org/index.php?title=Special:DownloadCode/Box-Muller_transform_(C)&oldid=7011
     static double n2 = 0.0;

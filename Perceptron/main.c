@@ -83,6 +83,7 @@ int main(int argc, char *argv[])
   flags |= PRC_GEN_IW;
   int numWeights;
 
+  // Train
   if(flags & PRC_TRAIN)
   {
     if((flags & PRC_EXPORT_WEIGHTS) || (flags & PRC_EXPORT_WEIGHTS_PROGRESS) || (flags & PRC_COMPUTE))
@@ -92,6 +93,7 @@ int main(int argc, char *argv[])
     }
   }
 
+  // Compute
   if(flags & PRC_COMPUTE)
   {
     Compute(computationDataFileName, weights, numWeights);
